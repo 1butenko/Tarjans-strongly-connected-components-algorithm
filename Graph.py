@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 class Graph:
     def __init__(self, graph_set : set):
@@ -30,10 +31,32 @@ class Graph:
                 adjacency_list[i[0]] = [i[1]]
 
         return adjacency_list
+    
+    def plot(self):
+        theta = np.linspace(0, 2*np.pi, self.num_of_verticies, endpoint=False)
+        x = np.cos(theta)
+        y = np.sin(theta)
+
+        fig, ax = plt.subplots()
+
+        for u, v in self.graph_set:
+            i, j = self.vtoi[u], self.vtoi[v]
+
+            ax.annotate(
+                "", 
+                xy=(x[j], y[j]), 
+                xytext=(x[i], y[i]), 
+                arrowprops=dict(arrowstyle="->", lw=1.5)
+            )
+
+        ax.scatter(x, y, s=250, c='skyblue')
+
+        for v,i in self.vtoi.items():
+            ax.text(x[i], y[i], str(v), ha='center', va='center')
+
+        ax.axis('equal')
+        plt.show()
+
 
     def __repr__(self):
         return f"Graph(\nincidence_matrix=\n{self.incidence_matrix}\nadjacency_list={self.adjacency_list})"
-    
-graph = Graph({(1, 0), (1,2), (1, 3), (3, 1), (3, 2), (5,7)})
-
-print(graph)
