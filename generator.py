@@ -1,9 +1,9 @@
 import numpy as np
-from graph import Graph
 
 class Generator:
     def __init__(self, n : int, delta : int):
-       self.nodes = n
+       self.num_of_vertices = n
+       self.vertices = list(range(self.num_of_vertices))
        self.edges = self._calculate_edges(n, delta)
        self.p = delta / 100
     
@@ -13,15 +13,10 @@ class Generator:
     def generate_random_graph(self):
         graph_set = set()
         
-        for i in range(self.nodes):            
-            for j in range(self.nodes):
+        for i in self.vertices:            
+            for j in self.vertices:
                 if i != j:
                     if np.random.random() < self.p:
                         graph_set.add((i, j))
         
         return graph_set
-    
-
-generator = Generator(n = 100, delta=2)
-g = Graph(generator.generate_random_graph())
-g.plot()
