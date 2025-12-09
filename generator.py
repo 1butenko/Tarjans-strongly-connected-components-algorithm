@@ -8,7 +8,7 @@ class Generator:
        self.p = delta / 100
     
     def _calculate_edges(self, n : int, delta : int) -> int:
-        return round(delta / 100 * (n * (n - 1))) # formula of edges in graph mutliplied by delta
+        return round(delta / 100 * (n * (n - 1)))
     
     def generate_random_graph(self):
         graph_set = set()
