@@ -3,7 +3,7 @@ import numpy as np
 class Generator:
     def __init__(self, n : int, delta : int):
        self.num_of_vertices = n
-       self.vertices = list(range(self.num_of_vertices))
+       self.vertices = set(range(self.num_of_vertices))
        self.edges = self._calculate_edges(n, delta)
        self.p = delta / 100
     

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Graph:
-    def __init__(self, vertices : list, edges : set):
+    def __init__(self, vertices : set, edges : set):
         self.vertices = vertices
         self.num_of_vertices = len(self.vertices)
         
@@ -33,6 +33,57 @@ class Graph:
 
         return adjacency_list
     
+    def matrix_to_list(self):
+        adjacency_list = {v: [] for v in self.vertices}
+
+        for i in range(len(self.adjacency_matrix)):
+            for j in range(len(self.adjacency_matrix[i])):
+                if self.adjacency_matrix[i][j] == 1:
+                    adjacency_list[self.vertices[i]].append(self.vertices[j])
+
+        return adjacency_list
+    
+    def list_to_matrix(self):
+        adjacency_matrix = np.zeros((self.num_of_vertices, self.num_of_vertices), dtype=int)
+        
+        for v, neighbors in self.adjacency_list.items():
+            i = self.vtoi[v]
+
+            for n in neighbors:
+                j = self.vtoi[n]
+                adjacency_matrix[i][j] = 1
+
+        return adjacency_matrix
+    
+    def __or__(self, other):
+        vertices = self.vertices | other.vertices
+        edges = self.edges | other.edges
+
+        return Graph(vertices, edges)
+    
+    def __and__(self, other):
+        vertices = self.vertices & other.vertices
+        edges = self.edges & other.edges
+
+        return Graph(vertices, edges)
+    
+    def __sub__(self, other):
+        vertices = self.vertices
+        edges = self.edges - other.edges
+
+        return Graph(vertices, edges)
+    
+    def __invert__(self):
+        vertices = self.vertices
+        edges = set()
+
+        for u in vertices:
+            for v in vertices:
+                if u != v and (u, v) not in self.edges:
+                    edges.add((u, v))
+
+        return Graph(vertices, edges)
+
     def plot(self, show_labels=True):
         n = self.num_of_vertices
         
